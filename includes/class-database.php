@@ -93,7 +93,7 @@ class Database {
 		// Save meta data.
 		$this->save_meta_data( $page_id, $data );
 
-		// Assign Maqam taxonomy.
+		// Assign Maqam taxonomy - assign if provided, leave empty if not.
 		if ( ! empty( $data['maqam'] ) ) {
 			$this->assign_maqam( $page_id, $data['maqam'] );
 		}
@@ -142,9 +142,12 @@ class Database {
 		// Update meta data.
 		$this->save_meta_data( $page_id, $data );
 
-		// Update Maqam taxonomy.
+		// Update Maqam taxonomy - assign if provided, remove if empty.
 		if ( ! empty( $data['maqam'] ) ) {
 			$this->assign_maqam( $page_id, $data['maqam'] );
+		} else {
+			// Remove all maqam terms if empty/missing.
+			wp_set_object_terms( $page_id, array(), 'maqam' );
 		}
 
 		return array(
@@ -458,13 +461,25 @@ class Database {
 	/**
 	 * Save meta data for transcription
 	 *
+	 * Handles both saving and deleting meta fields:
+	 * - If field has value: save/update it
+	 * - If field is empty/missing: delete it (removes old data)
+	 *
 	 * @param int   $page_id Page ID.
 	 * @param array $data Transcription data.
 	 */
 	private function save_meta_data( $page_id, $data ) {
-		// Fields that use sanitize_text_field.
+		// Always save contentful_id (required, never delete).
+		if ( ! empty( $data['contentful_id'] ) ) {
+			update_post_meta(
+				$page_id,
+				self::META_PREFIX . 'contentful_id',
+				sanitize_text_field( $data['contentful_id'] )
+			);
+		}
+
+		// Optional text fields - delete if empty/missing.
 		$text_fields = array(
-			'contentful_id',
 			'composer',
 			'form',
 			'iqa_rhythm',
@@ -472,16 +487,19 @@ class Database {
 		);
 
 		foreach ( $text_fields as $field ) {
-			if ( isset( $data[ $field ] ) ) {
+			if ( ! empty( $data[ $field ] ) ) {
 				update_post_meta(
 					$page_id,
 					self::META_PREFIX . $field,
 					sanitize_text_field( $data[ $field ] )
 				);
+			} else {
+				// Delete meta if empty/missing - removes old data.
+				delete_post_meta( $page_id, self::META_PREFIX . $field );
 			}
 		}
 
-		// Fields that use wp_kses_post (allow HTML, preserve line breaks).
+		// Optional HTML fields - delete if empty/missing.
 		$html_fields = array(
 			'about',
 			'text',
@@ -490,12 +508,15 @@ class Database {
 		);
 
 		foreach ( $html_fields as $field ) {
-			if ( isset( $data[ $field ] ) ) {
+			if ( ! empty( $data[ $field ] ) ) {
 				update_post_meta(
 					$page_id,
 					self::META_PREFIX . $field,
 					wp_kses_post( $data[ $field ] )
 				);
+			} else {
+				// Delete meta if empty/missing - removes old data.
+				delete_post_meta( $page_id, self::META_PREFIX . $field );
 			}
 		}
 
