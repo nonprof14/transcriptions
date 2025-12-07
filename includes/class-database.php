@@ -189,6 +189,9 @@ class Database {
 			'form'                  => get_post_meta( $page_id, self::META_PREFIX . 'form', true ),
 			'iqa_rhythm'            => get_post_meta( $page_id, self::META_PREFIX . 'iqa_rhythm', true ),
 			'pdf_url'               => get_post_meta( $page_id, self::META_PREFIX . 'pdf_url', true ),
+			'about'                 => get_post_meta( $page_id, self::META_PREFIX . 'about', true ),
+			'text'                  => get_post_meta( $page_id, self::META_PREFIX . 'text', true ),
+			'analysis'              => get_post_meta( $page_id, self::META_PREFIX . 'analysis', true ),
 			'contentful_id'         => get_post_meta( $page_id, self::META_PREFIX . 'contentful_id', true ),
 			'contentful_last_sync'  => get_post_meta( $page_id, self::META_PREFIX . 'contentful_last_sync', true ),
 		);
@@ -293,9 +296,9 @@ class Database {
 	}
 
 	/**
-	 * Get transcriptions grouped by Composer (alphabetically)
+	 * Get transcriptions grouped by Composer (sorted by last name)
 	 *
-	 * @return array Transcriptions grouped by first letter of composer.
+	 * @return array Transcriptions grouped by composer, sorted by last name.
 	 */
 	public function get_transcriptions_by_composer() {
 		// Get all transcription pages.
@@ -303,8 +306,7 @@ class Database {
 			'post_type'      => 'page',
 			'post_status'    => 'publish',
 			'posts_per_page' => -1,
-			'orderby'        => 'meta_value',
-			'meta_key'       => self::META_PREFIX . 'composer',
+			'orderby'        => 'title',
 			'order'          => 'ASC',
 			'meta_query'     => array(
 				array(
@@ -324,7 +326,8 @@ class Database {
 			return array();
 		}
 
-		$grouped = array();
+		// Build data with last name for sorting.
+		$composers_data = array();
 
 		foreach ( $pages as $page ) {
 			$composer = get_post_meta( $page->ID, self::META_PREFIX . 'composer', true );
@@ -333,13 +336,7 @@ class Database {
 				continue;
 			}
 
-			// Get first letter of composer name.
-			$first_letter = strtoupper( mb_substr( $composer, 0, 1 ) );
-
-			// Ensure it's a letter, otherwise use '#'.
-			if ( ! preg_match( '/[A-Z]/', $first_letter ) ) {
-				$first_letter = '#';
-			}
+			$last_name = $this->get_last_name( $composer );
 
 			// Get Maqam for this entry.
 			$maqam_terms = get_the_terms( $page->ID, 'maqam' );
@@ -348,11 +345,14 @@ class Database {
 				$maqam = $maqam_terms[0]->name;
 			}
 
-			if ( ! isset( $grouped[ $first_letter ] ) ) {
-				$grouped[ $first_letter ] = array();
+			if ( ! isset( $composers_data[ $composer ] ) ) {
+				$composers_data[ $composer ] = array(
+					'last_name'      => $last_name,
+					'transcriptions' => array(),
+				);
 			}
 
-			$grouped[ $first_letter ][] = array(
+			$composers_data[ $composer ]['transcriptions'][] = array(
 				'id'       => $page->ID,
 				'title'    => $page->post_title,
 				'url'      => get_permalink( $page->ID ),
@@ -362,10 +362,33 @@ class Database {
 			);
 		}
 
-		// Sort groups alphabetically.
-		ksort( $grouped );
+		// Sort composers by last name.
+		uasort( $composers_data, function( $a, $b ) {
+			return strcasecmp( $a['last_name'], $b['last_name'] );
+		});
+
+		// Build final grouped array with composer name as key.
+		$grouped = array();
+		foreach ( $composers_data as $composer_name => $data ) {
+			$grouped[ $composer_name ] = $data['transcriptions'];
+		}
 
 		return $grouped;
+	}
+
+	/**
+	 * Extract last name from full name
+	 *
+	 * @param string $full_name Full name string.
+	 * @return string Last name (last word in the name).
+	 */
+	private function get_last_name( $full_name ) {
+		if ( empty( $full_name ) ) {
+			return '';
+		}
+
+		$parts = explode( ' ', trim( $full_name ) );
+		return end( $parts );
 	}
 
 	/**
@@ -438,7 +461,8 @@ class Database {
 	 * @param array $data Transcription data.
 	 */
 	private function save_meta_data( $page_id, $data ) {
-		$meta_fields = array(
+		// Fields that use sanitize_text_field.
+		$text_fields = array(
 			'contentful_id',
 			'composer',
 			'form',
@@ -446,12 +470,29 @@ class Database {
 			'pdf_url',
 		);
 
-		foreach ( $meta_fields as $field ) {
+		foreach ( $text_fields as $field ) {
 			if ( isset( $data[ $field ] ) ) {
 				update_post_meta(
 					$page_id,
 					self::META_PREFIX . $field,
 					sanitize_text_field( $data[ $field ] )
+				);
+			}
+		}
+
+		// Fields that use wp_kses_post (allow HTML, preserve line breaks).
+		$html_fields = array(
+			'about',
+			'text',
+			'analysis',
+		);
+
+		foreach ( $html_fields as $field ) {
+			if ( isset( $data[ $field ] ) ) {
+				update_post_meta(
+					$page_id,
+					self::META_PREFIX . $field,
+					wp_kses_post( $data[ $field ] )
 				);
 			}
 		}

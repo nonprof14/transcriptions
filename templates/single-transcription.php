@@ -28,6 +28,9 @@ get_header();
 					$composer   = get_post_meta( get_the_ID(), '_transcriptions_composer', true );
 					$iqa_rhythm = get_post_meta( get_the_ID(), '_transcriptions_iqa_rhythm', true );
 					$pdf_url    = get_post_meta( get_the_ID(), '_transcriptions_pdf_url', true );
+					$about      = get_post_meta( get_the_ID(), '_transcriptions_about', true );
+					$text       = get_post_meta( get_the_ID(), '_transcriptions_text', true );
+					$analysis   = get_post_meta( get_the_ID(), '_transcriptions_analysis', true );
 
 					// Get Maqam.
 					$maqam_terms = get_the_terms( get_the_ID(), 'maqam' );
@@ -44,6 +47,13 @@ get_header();
 						<!-- Composer - Centered below title -->
 						<?php if ( ! empty( $composer ) ) : ?>
 							<h2 class="transcription-composer"><?php echo esc_html( $composer ); ?></h2>
+						<?php endif; ?>
+
+						<!-- About Section (Optional - No heading) -->
+						<?php if ( ! empty( $about ) ) : ?>
+							<div class="transcription-about">
+								<?php echo wp_kses_post( wpautop( $about ) ); ?>
+							</div>
 						<?php endif; ?>
 
 						<!-- Maqam Section -->
@@ -96,6 +106,28 @@ get_header();
 									</div>
 								</div>
 								<!-- PDF.js scripts are enqueued via class-renderer.php -->
+							</div>
+						<?php endif; ?>
+
+						<!-- Text Section (Optional - With heading, supports RTL/Arabic) -->
+						<?php if ( ! empty( $text ) ) : ?>
+							<div class="transcription-section">
+								<h3 class="transcription-section-heading"><?php esc_html_e( 'Text', 'transcriptions-sync' ); ?></h3>
+								<div class="section-separator"></div>
+								<div class="section-text-content">
+									<?php echo wp_kses_post( wpautop( $text ) ); ?>
+								</div>
+							</div>
+						<?php endif; ?>
+
+						<!-- Analysis Section (Optional - With heading, left-aligned) -->
+						<?php if ( ! empty( $analysis ) ) : ?>
+							<div class="transcription-section">
+								<h3 class="transcription-section-heading"><?php esc_html_e( 'Analysis', 'transcriptions-sync' ); ?></h3>
+								<div class="section-separator"></div>
+								<div class="section-analysis-content">
+									<?php echo wp_kses_post( wpautop( $analysis ) ); ?>
+								</div>
 							</div>
 						<?php endif; ?>
 
