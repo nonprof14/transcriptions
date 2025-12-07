@@ -186,6 +186,12 @@ class API {
 				'required'          => false,
 				'sanitize_callback' => 'wp_kses_post',
 			),
+			'translation'   => array(
+				'description'       => 'Optional translation of the text content',
+				'type'              => 'string',
+				'required'          => false,
+				'sanitize_callback' => 'wp_kses_post',
+			),
 			'analysis'      => array(
 				'description'       => 'Optional analysis section with detailed commentary',
 				'type'              => 'string',
@@ -224,6 +230,7 @@ class API {
 				'pdf_url'       => $request->get_param( 'pdf_url' ),
 				'about'         => $request->get_param( 'about' ),
 				'text'          => $request->get_param( 'text' ),
+				'translation'   => $request->get_param( 'translation' ),
 				'analysis'      => $request->get_param( 'analysis' ),
 			);
 
@@ -286,6 +293,7 @@ class API {
 				'pdf_url'       => $request->get_param( 'pdf_url' ),
 				'about'         => $request->get_param( 'about' ),
 				'text'          => $request->get_param( 'text' ),
+				'translation'   => $request->get_param( 'translation' ),
 				'analysis'      => $request->get_param( 'analysis' ),
 			);
 

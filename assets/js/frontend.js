@@ -36,7 +36,12 @@
 	 * Extract all transcription data from the DOM on page load
 	 */
 	function extractTranscriptionsData() {
-		const entries = document.querySelectorAll('.transcription-entry[data-maqam]');
+		// Only extract from desktop view to avoid duplicates
+		// (mobile view contains the same transcriptions)
+		const desktopContainer = document.querySelector('.transcriptions-table-view');
+		if (!desktopContainer) return;
+
+		const entries = desktopContainer.querySelectorAll('.transcription-entry[data-maqam]');
 
 		entries.forEach(function(entry) {
 			const data = {

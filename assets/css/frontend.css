@@ -347,6 +347,25 @@
 	margin-bottom: 0;
 }
 
+/* Translation Section - Left-aligned paragraphs */
+.section-translation-content {
+	text-align: left;
+	font-weight: 300;
+	font-size: 16px;
+	color: #666;
+	line-height: 1.6;
+	margin: 24px 0;
+	white-space: pre-wrap;
+}
+
+.section-translation-content p {
+	margin: 0 0 16px 0;
+}
+
+.section-translation-content p:last-child {
+	margin-bottom: 0;
+}
+
 /* Analysis Section - Left-aligned paragraphs */
 .section-analysis-content {
 	text-align: left;
@@ -543,6 +562,12 @@
 		padding: 0 15px;
 	}
 
+	/* Translation section responsive */
+	.section-translation-content {
+		font-size: 15px;
+		margin: 20px 0;
+	}
+
 	/* Analysis section responsive */
 	.section-analysis-content {
 		font-size: 15px;
@@ -601,6 +626,12 @@
 		margin: 16px auto;
 		padding: 0 10px;
 		line-height: 1.7;
+	}
+
+	/* Translation section responsive - small mobile */
+	.section-translation-content {
+		font-size: 14px;
+		margin: 16px 0;
 	}
 
 	/* Analysis section responsive - small mobile */

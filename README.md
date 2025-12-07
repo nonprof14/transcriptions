@@ -17,6 +17,7 @@ A WordPress plugin that syncs musical transcriptions from Contentful to WordPres
 ### Optional Content Sections
 - **About section** - Centered text, no heading, appears after composer
 - **Text section** - Centered, supports Arabic/RTL text with heading
+- **Translation section** - Left-aligned English translation with heading
 - **Analysis section** - Left-aligned commentary with heading
 
 ### Sorting & Organization
@@ -57,6 +58,7 @@ A WordPress plugin that syncs musical transcriptions from Contentful to WordPres
 | `pdf_url` | string | URL to PDF file |
 | `about` | text | Optional description (displayed centered, no heading) |
 | `text` | text | Optional lyrics/text (often Arabic, displayed centered) |
+| `translation` | text | Optional English translation (displayed left-aligned) |
 | `analysis` | text | Optional musical analysis (displayed left-aligned) |
 
 **Note:** All fields except `contentful_id` and `title` are optional. Sections only appear on the page if data is provided.
@@ -124,6 +126,7 @@ Creates a new transcription or updates if `contentful_id` already exists.
   "pdf_url": "https://yoursite.com/wp-content/uploads/2025/11/samai-ajam.pdf",
   "about": "This composition represents the classical Syrian Sama'i tradition.",
   "text": "سماعي عجم\nوانيس ورتانيان",
+  "translation": "Sama'i Ajam\nBy Wanees Wartanian",
   "analysis": "The piece follows the traditional Sama'i structure with four Khanas and a Taslim that returns between each section."
 }
 ```
@@ -178,6 +181,7 @@ Updates an existing transcription by Contentful ID.
     "pdf_url": "https://yoursite.com/wp-content/uploads/2025/11/samai-ajam.pdf",
     "about": "This composition...",
     "text": "سماعي عجم...",
+    "translation": "Sama'i Ajam...",
     "analysis": "The piece follows...",
     "contentful_id": "abc123xyz",
     "contentful_last_sync": "2025-12-07 10:30:00"
@@ -244,6 +248,10 @@ Updates an existing transcription by Contentful ID.
 │ ─────────────────────────────────   │
 │ Arabic/Syrian text centered         │
 ├─────────────────────────────────────┤
+│ Translation (if provided)           │
+│ ─────────────────────────────────   │
+│ Left-aligned English translation    │
+├─────────────────────────────────────┤
 │ Analysis (if provided)              │
 │ ─────────────────────────────────   │
 │ Left-aligned analysis text          │
@@ -279,6 +287,7 @@ Add this shortcode to any WordPress page:
    - PDF URL
    - About (optional)
    - Text (optional, supports Arabic)
+   - Translation (optional)
    - Analysis (optional)
 4. Edit the Maqam category in the right sidebar
 5. Click **Update** to save
@@ -376,7 +385,7 @@ This plugin is licensed under the GPL v2 or later.
 
 ---
 
-**Version:** 1.1.0
+**Version:** 1.2.0
 **Requires WordPress:** 5.6+
 **Requires PHP:** 7.4+
 **License:** GPL v2 or later
