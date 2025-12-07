@@ -1,0 +1,206 @@
+/**
+ * Transcriptions Sync - Admin Styles
+ *
+ * @package TranscriptionsSync
+ */
+
+/* ===================================
+   Meta Box Styles
+   =================================== */
+
+#transcriptions_details .form-table th {
+	width: 200px;
+	font-weight: 600;
+}
+
+#transcriptions_details .form-table td {
+	padding: 15px 10px;
+}
+
+#transcriptions_details .regular-text {
+	width: 100%;
+	max-width: 500px;
+}
+
+#transcriptions_details .description {
+	color: #666;
+	font-style: italic;
+	margin-top: 5px;
+}
+
+.transcriptions-upload-pdf {
+	margin-left: 10px;
+	vertical-align: middle;
+}
+
+/* Sync Meta Box */
+#transcriptions_sync .transcriptions-sync-info {
+	padding: 10px;
+}
+
+#transcriptions_sync .transcriptions-sync-info p {
+	margin: 0 0 15px 0;
+}
+
+#transcriptions_sync .transcriptions-sync-info p:last-child {
+	margin-bottom: 0;
+}
+
+#transcriptions_sync .transcriptions-sync-info code {
+	display: block;
+	background-color: #f5f5f5;
+	padding: 8px 10px;
+	border-radius: 3px;
+	font-size: 12px;
+	word-break: break-all;
+	margin-top: 5px;
+}
+
+#transcriptions_sync .transcriptions-sync-info strong {
+	display: block;
+	margin-bottom: 5px;
+	color: #23282d;
+}
+
+/* ===================================
+   Admin Page Styles
+   =================================== */
+
+.transcriptions-admin-info {
+	background-color: #f9f9f9;
+	border-left: 4px solid #FF6B6B;
+	padding: 20px;
+	margin: 20px 0;
+	border-radius: 4px;
+}
+
+.transcriptions-admin-info h2 {
+	margin-top: 0;
+	color: #23282d;
+}
+
+.transcriptions-admin-info p {
+	margin: 10px 0;
+}
+
+.transcriptions-admin-info code {
+	background-color: #ffffff;
+	padding: 8px 12px;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	display: inline-block;
+	margin-top: 5px;
+	font-size: 13px;
+}
+
+.transcriptions-admin-info .description {
+	color: #666;
+	font-style: italic;
+}
+
+/* Admin Table Styles */
+.transcriptions-admin-table {
+	margin-top: 20px;
+}
+
+.transcriptions-admin-table code {
+	background-color: #f5f5f5;
+	padding: 4px 8px;
+	border-radius: 3px;
+	font-size: 12px;
+}
+
+/* ===================================
+   Pages List Column Styles
+   =================================== */
+
+.column-transcription_composer,
+.column-transcription_maqam {
+	width: 150px;
+}
+
+/* ===================================
+   Media Upload Button
+   =================================== */
+
+.transcriptions-media-preview {
+	margin-top: 10px;
+	max-width: 300px;
+}
+
+.transcriptions-media-preview img {
+	max-width: 100%;
+	height: auto;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+}
+
+.transcriptions-remove-media {
+	display: inline-block;
+	margin-top: 10px;
+	color: #a00;
+	text-decoration: none;
+}
+
+.transcriptions-remove-media:hover {
+	color: #dc3232;
+	text-decoration: underline;
+}
+
+/* ===================================
+   Responsive Admin Styles
+   =================================== */
+
+@media screen and (max-width: 782px) {
+	#transcriptions_details .form-table th {
+		width: auto;
+		padding: 10px 0;
+	}
+
+	#transcriptions_details .form-table td {
+		padding: 10px 0;
+	}
+
+	#transcriptions_details .regular-text {
+		max-width: 100%;
+	}
+
+	.transcriptions-upload-pdf {
+		margin-left: 0;
+		margin-top: 10px;
+		display: block;
+	}
+}
+
+/* ===================================
+   Taxonomy (Maqam) Styles
+   =================================== */
+
+.taxonomy-maqam .form-field input[type="text"] {
+	width: 95%;
+	max-width: 600px;
+}
+
+.taxonomy-maqam .form-field textarea {
+	width: 95%;
+	max-width: 600px;
+	height: 100px;
+}
+
+/* ===================================
+   Notice Styles
+   =================================== */
+
+.notice.transcriptions-notice {
+	border-left-color: #FF6B6B;
+}
+
+.notice.transcriptions-notice p {
+	margin: 0.5em 0;
+}
+
+.notice.transcriptions-notice code {
+	background-color: #f5f5f5;
+	padding: 2px 6px;
+	border-radius: 3px;
+}
