@@ -77,13 +77,14 @@ class Admin {
 		wp_nonce_field( 'transcriptions_save_meta', 'transcriptions_meta_nonce' );
 
 		// Get current values.
-		$composer   = get_post_meta( $post->ID, '_transcriptions_composer', true );
-		$form       = get_post_meta( $post->ID, '_transcriptions_form', true );
-		$iqa_rhythm = get_post_meta( $post->ID, '_transcriptions_iqa_rhythm', true );
-		$pdf_url    = get_post_meta( $post->ID, '_transcriptions_pdf_url', true );
-		$about      = get_post_meta( $post->ID, '_transcriptions_about', true );
-		$text       = get_post_meta( $post->ID, '_transcriptions_text', true );
-		$analysis   = get_post_meta( $post->ID, '_transcriptions_analysis', true );
+		$composer    = get_post_meta( $post->ID, '_transcriptions_composer', true );
+		$form        = get_post_meta( $post->ID, '_transcriptions_form', true );
+		$iqa_rhythm  = get_post_meta( $post->ID, '_transcriptions_iqa_rhythm', true );
+		$pdf_url     = get_post_meta( $post->ID, '_transcriptions_pdf_url', true );
+		$about       = get_post_meta( $post->ID, '_transcriptions_about', true );
+		$text        = get_post_meta( $post->ID, '_transcriptions_text', true );
+		$translation = get_post_meta( $post->ID, '_transcriptions_translation', true );
+		$analysis    = get_post_meta( $post->ID, '_transcriptions_analysis', true );
 
 		?>
 		<table class="form-table">
@@ -206,6 +207,25 @@ class Admin {
 					><?php echo esc_textarea( $text ); ?></textarea>
 					<p class="description">
 						<?php esc_html_e( 'Optional text content (often Arabic/Syrian). Displayed centered with RTL support.', 'transcriptions-sync' ); ?>
+					</p>
+				</td>
+			</tr>
+
+			<tr>
+				<th>
+					<label for="transcriptions_translation">
+						<?php esc_html_e( 'Translation', 'transcriptions-sync' ); ?>
+					</label>
+				</th>
+				<td>
+					<textarea
+						id="transcriptions_translation"
+						name="transcriptions_translation"
+						rows="6"
+						class="large-text"
+					><?php echo esc_textarea( $translation ); ?></textarea>
+					<p class="description">
+						<?php esc_html_e( 'Optional English translation of the text. Displayed left-aligned.', 'transcriptions-sync' ); ?>
 					</p>
 				</td>
 			</tr>
@@ -347,6 +367,15 @@ class Admin {
 				$post_id,
 				'_transcriptions_text',
 				wp_kses_post( $_POST['transcriptions_text'] )
+			);
+		}
+
+		// Save translation.
+		if ( isset( $_POST['transcriptions_translation'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_transcriptions_translation',
+				wp_kses_post( $_POST['transcriptions_translation'] )
 			);
 		}
 

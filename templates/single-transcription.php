@@ -25,12 +25,13 @@ get_header();
 				<div class="entry-content transcription-content">
 					<?php
 					// Get transcription data.
-					$composer   = get_post_meta( get_the_ID(), '_transcriptions_composer', true );
-					$iqa_rhythm = get_post_meta( get_the_ID(), '_transcriptions_iqa_rhythm', true );
-					$pdf_url    = get_post_meta( get_the_ID(), '_transcriptions_pdf_url', true );
-					$about      = get_post_meta( get_the_ID(), '_transcriptions_about', true );
-					$text       = get_post_meta( get_the_ID(), '_transcriptions_text', true );
-					$analysis   = get_post_meta( get_the_ID(), '_transcriptions_analysis', true );
+					$composer    = get_post_meta( get_the_ID(), '_transcriptions_composer', true );
+					$iqa_rhythm  = get_post_meta( get_the_ID(), '_transcriptions_iqa_rhythm', true );
+					$pdf_url     = get_post_meta( get_the_ID(), '_transcriptions_pdf_url', true );
+					$about       = get_post_meta( get_the_ID(), '_transcriptions_about', true );
+					$text        = get_post_meta( get_the_ID(), '_transcriptions_text', true );
+					$translation = get_post_meta( get_the_ID(), '_transcriptions_translation', true );
+					$analysis    = get_post_meta( get_the_ID(), '_transcriptions_analysis', true );
 
 					// Get Maqam.
 					$maqam_terms = get_the_terms( get_the_ID(), 'maqam' );
@@ -116,6 +117,17 @@ get_header();
 								<div class="section-separator"></div>
 								<div class="section-text-content">
 									<?php echo wp_kses_post( wpautop( $text ) ); ?>
+								</div>
+							</div>
+						<?php endif; ?>
+
+						<!-- Translation Section (Optional - With heading, left-aligned) -->
+						<?php if ( ! empty( $translation ) ) : ?>
+							<div class="transcription-section">
+								<h3 class="transcription-section-heading"><?php esc_html_e( 'Translation', 'transcriptions-sync' ); ?></h3>
+								<div class="section-separator"></div>
+								<div class="section-translation-content">
+									<?php echo wp_kses_post( wpautop( $translation ) ); ?>
 								</div>
 							</div>
 						<?php endif; ?>

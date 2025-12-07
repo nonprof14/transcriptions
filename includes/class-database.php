@@ -191,6 +191,7 @@ class Database {
 			'pdf_url'               => get_post_meta( $page_id, self::META_PREFIX . 'pdf_url', true ),
 			'about'                 => get_post_meta( $page_id, self::META_PREFIX . 'about', true ),
 			'text'                  => get_post_meta( $page_id, self::META_PREFIX . 'text', true ),
+			'translation'           => get_post_meta( $page_id, self::META_PREFIX . 'translation', true ),
 			'analysis'              => get_post_meta( $page_id, self::META_PREFIX . 'analysis', true ),
 			'contentful_id'         => get_post_meta( $page_id, self::META_PREFIX . 'contentful_id', true ),
 			'contentful_last_sync'  => get_post_meta( $page_id, self::META_PREFIX . 'contentful_last_sync', true ),
@@ -484,6 +485,7 @@ class Database {
 		$html_fields = array(
 			'about',
 			'text',
+			'translation',
 			'analysis',
 		);
 
