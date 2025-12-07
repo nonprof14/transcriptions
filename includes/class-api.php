@@ -174,6 +174,24 @@ class API {
 					return filter_var( $param, FILTER_VALIDATE_URL ) !== false;
 				},
 			),
+			'about'         => array(
+				'description'       => 'Optional description about the composition',
+				'type'              => 'string',
+				'required'          => false,
+				'sanitize_callback' => 'wp_kses_post',
+			),
+			'text'          => array(
+				'description'       => 'Optional text content (often Arabic/Syrian lyrics)',
+				'type'              => 'string',
+				'required'          => false,
+				'sanitize_callback' => 'wp_kses_post',
+			),
+			'analysis'      => array(
+				'description'       => 'Optional analysis section with detailed commentary',
+				'type'              => 'string',
+				'required'          => false,
+				'sanitize_callback' => 'wp_kses_post',
+			),
 		);
 	}
 
@@ -204,6 +222,9 @@ class API {
 				'form'          => $request->get_param( 'form' ),
 				'iqa_rhythm'    => $request->get_param( 'iqa_rhythm' ),
 				'pdf_url'       => $request->get_param( 'pdf_url' ),
+				'about'         => $request->get_param( 'about' ),
+				'text'          => $request->get_param( 'text' ),
+				'analysis'      => $request->get_param( 'analysis' ),
 			);
 
 			// Try to create (will auto-update if exists).
@@ -263,6 +284,9 @@ class API {
 				'form'          => $request->get_param( 'form' ),
 				'iqa_rhythm'    => $request->get_param( 'iqa_rhythm' ),
 				'pdf_url'       => $request->get_param( 'pdf_url' ),
+				'about'         => $request->get_param( 'about' ),
+				'text'          => $request->get_param( 'text' ),
+				'analysis'      => $request->get_param( 'analysis' ),
 			);
 
 			$result = $this->database->update_transcription( $contentful_id, $data );

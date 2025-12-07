@@ -209,6 +209,18 @@
 	}
 
 	/**
+	 * Extract last name from full name
+	 *
+	 * @param {string} fullName - Full name string
+	 * @return {string} Last name (last word in the name)
+	 */
+	function getLastName(fullName) {
+		if (!fullName) return '';
+		const parts = fullName.trim().split(' ');
+		return parts[parts.length - 1];
+	}
+
+	/**
 	 * Group transcriptions by a specific field
 	 *
 	 * @param {Array} data - Array of transcription objects
@@ -228,9 +240,23 @@
 			grouped[key].push(item);
 		});
 
-		// Sort the groups alphabetically
+		// Sort the groups
+		let sortedKeys;
+
+		if (field === 'composer') {
+			// Sort composers by last name
+			sortedKeys = Object.keys(grouped).sort(function(a, b) {
+				const lastNameA = getLastName(a).toLowerCase();
+				const lastNameB = getLastName(b).toLowerCase();
+				return lastNameA.localeCompare(lastNameB);
+			});
+		} else {
+			// Sort other fields alphabetically
+			sortedKeys = Object.keys(grouped).sort();
+		}
+
 		const sortedGrouped = {};
-		Object.keys(grouped).sort().forEach(function(key) {
+		sortedKeys.forEach(function(key) {
 			sortedGrouped[key] = grouped[key];
 		});
 

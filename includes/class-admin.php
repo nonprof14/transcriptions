@@ -81,6 +81,9 @@ class Admin {
 		$form       = get_post_meta( $post->ID, '_transcriptions_form', true );
 		$iqa_rhythm = get_post_meta( $post->ID, '_transcriptions_iqa_rhythm', true );
 		$pdf_url    = get_post_meta( $post->ID, '_transcriptions_pdf_url', true );
+		$about      = get_post_meta( $post->ID, '_transcriptions_about', true );
+		$text       = get_post_meta( $post->ID, '_transcriptions_text', true );
+		$analysis   = get_post_meta( $post->ID, '_transcriptions_analysis', true );
 
 		?>
 		<table class="form-table">
@@ -163,6 +166,65 @@ class Admin {
 					</button>
 					<p class="description">
 						<?php esc_html_e( 'URL to the PDF transcription file', 'transcriptions-sync' ); ?>
+					</p>
+				</td>
+			</tr>
+
+			<tr>
+				<th>
+					<label for="transcriptions_about">
+						<?php esc_html_e( 'About', 'transcriptions-sync' ); ?>
+					</label>
+				</th>
+				<td>
+					<textarea
+						id="transcriptions_about"
+						name="transcriptions_about"
+						rows="4"
+						class="large-text"
+					><?php echo esc_textarea( $about ); ?></textarea>
+					<p class="description">
+						<?php esc_html_e( 'Optional centered text about the composition. Displayed without a heading.', 'transcriptions-sync' ); ?>
+					</p>
+				</td>
+			</tr>
+
+			<tr>
+				<th>
+					<label for="transcriptions_text">
+						<?php esc_html_e( 'Text (Arabic/Syrian)', 'transcriptions-sync' ); ?>
+					</label>
+				</th>
+				<td>
+					<textarea
+						id="transcriptions_text"
+						name="transcriptions_text"
+						rows="6"
+						class="large-text"
+						dir="auto"
+						style="direction: rtl; unicode-bidi: plaintext;"
+					><?php echo esc_textarea( $text ); ?></textarea>
+					<p class="description">
+						<?php esc_html_e( 'Optional text content (often Arabic/Syrian). Displayed centered with RTL support.', 'transcriptions-sync' ); ?>
+					</p>
+				</td>
+			</tr>
+
+			<tr>
+				<th>
+					<label for="transcriptions_analysis">
+						<?php esc_html_e( 'Analysis', 'transcriptions-sync' ); ?>
+					</label>
+				</th>
+				<td>
+					<textarea
+						id="transcriptions_analysis"
+						name="transcriptions_analysis"
+						rows="8"
+						class="large-text"
+					><?php echo esc_textarea( $analysis ); ?></textarea>
+					<p class="description">
+						<?php esc_html_e( 'Optional analysis section with detailed commentary. Displayed left-aligned.', 'transcriptions-sync' ); ?>
 					</p>
 				</td>
 			</tr>
@@ -267,6 +329,33 @@ class Admin {
 				$post_id,
 				'_transcriptions_pdf_url',
 				esc_url_raw( $_POST['transcriptions_pdf_url'] )
+			);
+		}
+
+		// Save about.
+		if ( isset( $_POST['transcriptions_about'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_transcriptions_about',
+				wp_kses_post( $_POST['transcriptions_about'] )
+			);
+		}
+
+		// Save text.
+		if ( isset( $_POST['transcriptions_text'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_transcriptions_text',
+				wp_kses_post( $_POST['transcriptions_text'] )
+			);
+		}
+
+		// Save analysis.
+		if ( isset( $_POST['transcriptions_analysis'] ) ) {
+			update_post_meta(
+				$post_id,
+				'_transcriptions_analysis',
+				wp_kses_post( $_POST['transcriptions_analysis'] )
 			);
 		}
 	}
