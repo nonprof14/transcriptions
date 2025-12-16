@@ -476,7 +476,7 @@ class Admin {
 										</a>
 									</strong>
 								</td>
-								<td><?php echo esc_html( $composer ); ?></td>
+								<td><?php echo esc_html( ! empty( $composer ) ? $composer : __( 'Unknown', 'transcriptions-sync' ) ); ?></td>
 								<td><?php echo esc_html( $maqam ); ?></td>
 								<td><?php echo esc_html( $form ); ?></td>
 								<td><code><?php echo esc_html( $contentful_id ); ?></code></td>
@@ -533,7 +533,7 @@ class Admin {
 		switch ( $column ) {
 			case 'transcription_composer':
 				$composer = get_post_meta( $post_id, '_transcriptions_composer', true );
-				echo esc_html( $composer );
+				echo esc_html( ! empty( $composer ) ? $composer : __( 'Unknown', 'transcriptions-sync' ) );
 				break;
 
 			case 'transcription_maqam':

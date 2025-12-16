@@ -45,15 +45,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 					<!-- Transcription Entries -->
 					<div class="transcriptions-entries">
-						<?php foreach ( $transcriptions as $transcription ) : ?>
+						<?php foreach ( $transcriptions as $transcription ) :
+							$display_composer = ! empty( $transcription['composer'] ) ? $transcription['composer'] : __( 'Unknown', 'transcriptions-sync' );
+						?>
 							<div class="transcription-entry"
 								data-title="<?php echo esc_attr( $transcription['title'] ); ?>"
-								data-composer="<?php echo esc_attr( $transcription['composer'] ); ?>"
+								data-composer="<?php echo esc_attr( $display_composer ); ?>"
 								data-maqam="<?php echo esc_attr( $transcription['maqam'] ); ?>"
 								data-form="<?php echo esc_attr( $transcription['form'] ); ?>"
 								data-url="<?php echo esc_url( $transcription['url'] ); ?>">
 								<a href="<?php echo esc_url( $transcription['url'] ); ?>" class="transcription-link">
-									<?php echo esc_html( $transcription['title'] ); ?> - <?php echo esc_html( $transcription['composer'] ); ?>
+									<?php echo esc_html( $transcription['title'] ); ?> - <?php echo esc_html( $display_composer ); ?>
 								</a>
 							</div>
 						<?php endforeach; ?>
@@ -88,15 +90,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 					<!-- Transcription Entries -->
 					<div class="transcriptions-entries">
-						<?php foreach ( $transcriptions as $transcription ) : ?>
+						<?php foreach ( $transcriptions as $transcription ) :
+							$display_composer = ! empty( $transcription['composer'] ) ? $transcription['composer'] : __( 'Unknown', 'transcriptions-sync' );
+						?>
 							<div class="transcription-entry"
 								data-title="<?php echo esc_attr( $transcription['title'] ); ?>"
-								data-composer="<?php echo esc_attr( $transcription['composer'] ); ?>"
+								data-composer="<?php echo esc_attr( $display_composer ); ?>"
 								data-maqam="<?php echo esc_attr( $transcription['maqam'] ); ?>"
 								data-form="<?php echo esc_attr( $transcription['form'] ); ?>"
 								data-url="<?php echo esc_url( $transcription['url'] ); ?>">
 								<a href="<?php echo esc_url( $transcription['url'] ); ?>" class="transcription-link">
-									<?php echo esc_html( $transcription['title'] ); ?> - <?php echo esc_html( $transcription['composer'] ); ?>
+									<?php echo esc_html( $transcription['title'] ); ?> - <?php echo esc_html( $display_composer ); ?>
 								</a>
 							</div>
 						<?php endforeach; ?>
