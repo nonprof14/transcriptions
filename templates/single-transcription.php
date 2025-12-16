@@ -46,9 +46,10 @@ get_header();
 						<?php the_title( '<h1 class="transcription-title">', '</h1>' ); ?>
 
 						<!-- Composer - Centered below title -->
-						<?php if ( ! empty( $composer ) ) : ?>
-							<h2 class="transcription-composer"><?php echo esc_html( $composer ); ?></h2>
-						<?php endif; ?>
+						<?php
+						$display_composer = ! empty( $composer ) ? $composer : __( 'Unknown', 'transcriptions-sync' );
+						?>
+						<h2 class="transcription-composer"><?php echo esc_html( $display_composer ); ?></h2>
 
 						<!-- About Section (Optional - No heading) -->
 						<?php if ( ! empty( $about ) ) : ?>
